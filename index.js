@@ -75,7 +75,7 @@ var questionsArr = [
   },
 ];
 
-//score
+// score, timer
 var score = 0;
 let counter= 0;
 let timeLeft= 30;
@@ -103,9 +103,14 @@ let startButton= document.createElement("button");
 const container= document.createElement("div");
        quizContainer.appendChild(container);
 
- startButton.addEventListener("click", runQuiz);
+ startButton.addEventListener("click", ()=> {
+  startButton.remove();
+  runQuiz();
+});
 
  const timerCont= document.getElementById("timer");
+
+//show + store previous score
 
 function runQuiz(){
   if(questionsArr[counter] === undefined){
@@ -134,9 +139,12 @@ function runQuiz(){
    var timerId = setInterval(()=> {
          timeLeft--;
          timerCont.innerHTML= timeLeft;
+
    }, 1000);
 
+// timer reset at 0
    if(timeLeft === 0){
+    console.log("It is now zero");
     counter++;
     clearInterval(timerId);
     timeLeft= 30;
