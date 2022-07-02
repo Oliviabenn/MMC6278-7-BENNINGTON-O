@@ -14,6 +14,10 @@
 //store score in localStorage under the key "previous-score"
 
 //Array of question and answers
+const startBtn= document.getElementById("start-quiz");
+
+
+
 var questionsArr = [
   {
     question: 'Who created JavaScript?',
@@ -73,22 +77,48 @@ var questionsArr = [
 
 //score
 var score = 0;
+let counter= 0;
 
 //begin quiz on button click
-function runQuiz(){
+var quizContainer = document.getElementById('quiz');
+let startButton= document.createElement("button");
+        startButton.setAttribute("id", "start-quiz");
+        startButton.innerHTML= "Start Quiz";
 
+        quizContainer.appendChild(startButton);
+
+ startButton.addEventListener("click", runQuiz);
+
+function runQuiz(){
+    const container= document.createElement("div");
+  
+    const questionHTML= `
+      <div>
+        <p>${questionsArr[counter].question}</p>
+        <div>
+          <button>${questionsArr[counter].options[0]}</button>
+          <button>${questionsArr[counter].options[1]}</button>
+          <button>${questionsArr[counter].options[2]}</button>
+          <button>${questionsArr[counter].options[3]}</button>
+        </div>
+        <p>30</p>
+      </div>
+    `;
+
+   container.insertAdjacentHTML("afterbegin", questionHTML);
   //loop
-for(var i=0; i < questionsArr.length; i++){
-  var response = confirm(questionsArr[i].question);
-  if(response == questionsArr[i].answer){
-    score= score + (100 / questionsArr.length);
-  }
-}
-}
+//
+// for(var i=0; i < questionsArr.length; i++){
+//   var response = confirm(questionsArr[i].question);
+//   if(response == questionsArr[i].answer){
+//     score= score + (100 / questionsArr.length);
+//   }
+// }
+ }
 
 //countdown 30 secs
 var timeLeft = 30;
-    var elem = document.getElementById('quiz');
+
 
     var timerId = setInterval(countdown, 1000);
 
@@ -97,7 +127,7 @@ var timeLeft = 30;
         clearTimeout(timerId);
         doSomething();
       } else {
-        elem.innerHTML = timeLeft + ' seconds';
+        quizContainer.innerHTML = timeLeft + ' seconds';
         timeLeft--;
       }
-    }
+  }
