@@ -78,22 +78,30 @@ var questionsArr = [
 //score
 var score = 0;
 let counter= 0;
+let timeLeft= 30;
 
 //begin quiz on button click
 var quizContainer = document.getElementById('quiz');
+const timerContainer= document.createElement("p");
+       timerContainer.setAttribute("id", "timer");
+       timerContainer.innerHTML= timeLeft;
+       quizContainer.appendChild(timerContainer);
 let startButton= document.createElement("button");
         startButton.setAttribute("id", "start-quiz");
         startButton.innerHTML= "Start Quiz";
 
         quizContainer.appendChild(startButton);
+const container= document.createElement("div");
+       quizContainer.appendChild(container);
 
  startButton.addEventListener("click", runQuiz);
 
+ const timerCont= document.getElementById("timer");
+
 function runQuiz(){
-    const container= document.createElement("div");
-  
+
     const questionHTML= `
-      <div>
+      <div class="single-question">
         <p>${questionsArr[counter].question}</p>
         <div>
           <button>${questionsArr[counter].options[0]}</button>
@@ -104,8 +112,30 @@ function runQuiz(){
         <p>30</p>
       </div>
     `;
-
+    container.innerHTML= "";
    container.insertAdjacentHTML("afterbegin", questionHTML);
+
+
+   var timerId = setInterval(()=> {
+         timeLeft--;
+         timerCont.innerHTML= timeLeft;
+   }, 1000);
+
+   let selectButtons= document.querySelectorAll(".single-question button");
+      selectButtons.forEach(button=> {
+        button.addEventListener("click", ()=> {
+          if(button.innerHTML === questionsArr[counter].answer){
+            score++;
+          }
+
+          counter++;
+          clearInterval(timerId);
+          timeLeft= 30;
+          runQuiz();
+        })
+      })
+
+
   //loop
 //
 // for(var i=0; i < questionsArr.length; i++){
@@ -117,17 +147,16 @@ function runQuiz(){
  }
 
 //countdown 30 secs
-var timeLeft = 30;
+// var timeLeft = 30;
 
 
-    var timerId = setInterval(countdown, 1000);
 
-    function countdown() {
-      if (timeLeft == -1) {
-        clearTimeout(timerId);
-        doSomething();
-      } else {
-        quizContainer.innerHTML = timeLeft + ' seconds';
-        timeLeft--;
-      }
-  }
+//     function countdown() {
+//       if (timeLeft == -1) {
+//         clearTimeout(timerId);
+//       //  doSomething();
+//       } else {
+//         quizContainer.innerHTML = timeLeft + ' seconds';
+//         timeLeft--;
+//       }
+//   }
