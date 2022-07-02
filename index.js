@@ -71,20 +71,20 @@ var questionsArr = [
   },
 ];
 
-// //score
-// var score = 0;
-//
-// //begin quiz on button click
+//score
+var score = 0;
+
+//begin quiz on button click
 function runQuiz(){
-//
-//   //loop
-// for(var i=0; i < questionsArr.length; i++){
-//   var response = confirm(questionsArr[i].question);
-//   if(response == questionsArr[i].answer){
-//     score= score + (100 / questionsArr.length);
-//   }
-// }
-// }
+
+  //loop
+for(var i=0; i < questionsArr.length; i++){
+  var response = confirm(questionsArr[i].question);
+  if(response == questionsArr[i].answer){
+    score= score + (100 / questionsArr.length);
+  }
+}
+}
 
 //countdown 30 secs
 var timeLeft = 30;
