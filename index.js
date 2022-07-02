@@ -80,8 +80,17 @@ var score = 0;
 let counter= 0;
 let timeLeft= 30;
 
+let previousScore= localStorage.getItem("previous-score");
+
 //begin quiz on button click
 var quizContainer = document.getElementById('quiz');
+
+const scoreContainer= document.createElement("p");
+     if(previousScore !== null){
+      scoreContainer.innerHTML= `Previous Score:  ${previousScore}%`;
+      quizContainer.appendChild(scoreContainer);
+     }
+
 const timerContainer= document.createElement("p");
        timerContainer.setAttribute("id", "timer");
        timerContainer.innerHTML= timeLeft;
@@ -99,6 +108,12 @@ const container= document.createElement("div");
  const timerCont= document.getElementById("timer");
 
 function runQuiz(){
+  if(questionsArr[counter] === undefined){
+    let percentageScore= (score * 100) / questionsArr.length;
+    console.log(score);
+    localStorage.setItem("previous-score", percentageScore);
+    window.location.reload();
+  }
 
     const questionHTML= `
       <div class="single-question">
@@ -121,6 +136,13 @@ function runQuiz(){
          timerCont.innerHTML= timeLeft;
    }, 1000);
 
+   if(timeLeft === 0){
+    counter++;
+    clearInterval(timerId);
+    timeLeft= 30;
+    runQuiz();
+   }
+
    let selectButtons= document.querySelectorAll(".single-question button");
       selectButtons.forEach(button=> {
         button.addEventListener("click", ()=> {
@@ -136,27 +158,5 @@ function runQuiz(){
       })
 
 
-  //loop
-//
-// for(var i=0; i < questionsArr.length; i++){
-//   var response = confirm(questionsArr[i].question);
-//   if(response == questionsArr[i].answer){
-//     score= score + (100 / questionsArr.length);
-//   }
-// }
+
  }
-
-//countdown 30 secs
-// var timeLeft = 30;
-
-
-
-//     function countdown() {
-//       if (timeLeft == -1) {
-//         clearTimeout(timerId);
-//       //  doSomething();
-//       } else {
-//         quizContainer.innerHTML = timeLeft + ' seconds';
-//         timeLeft--;
-//       }
-//   }
