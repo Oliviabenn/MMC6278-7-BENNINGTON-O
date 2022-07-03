@@ -73,6 +73,7 @@ const scoreContainer= document.createElement("p");
       quizContainer.appendChild(scoreContainer);
      }
 
+
 const timerContainer= document.createElement("p");
        timerContainer.setAttribute("id", "timer");
        timerContainer.innerHTML= timeLeft;
