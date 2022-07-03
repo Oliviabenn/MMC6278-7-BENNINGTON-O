@@ -1,22 +1,5 @@
-// Create a quiz game that asks the user timed questions:
-
-//Show first question text, choices, and remaining time of 10 when start is clicked
-
-//Count down 30 seconds at a time
-
-//Show the next question and reset the timer when a correct option is chosen
-//show the next question and reset the timer when an incorrect option is chosen
-
-//end game when timer runs out on last question
-
-//show score when game is over and start quiz button
-
-//store score in localStorage under the key "previous-score"
-
 //Array of question and answers
 const startBtn= document.getElementById("start-quiz");
-
-
 
 var questionsArr = [
   {
@@ -85,11 +68,13 @@ let previousScore= localStorage.getItem("previous-score");
 //begin quiz on button click
 var quizContainer = document.getElementById('quiz');
 
+//show previous score on complete
 const scoreContainer= document.createElement("p");
      if(previousScore !== null){
       scoreContainer.innerHTML= `Previous Score:  ${previousScore}%`;
       quizContainer.appendChild(scoreContainer);
      }
+
 
 const timerContainer= document.createElement("p");
        timerContainer.setAttribute("id", "timer");
@@ -103,6 +88,7 @@ let startButton= document.createElement("button");
 const container= document.createElement("div");
        quizContainer.appendChild(container);
 
+//start button goes away when quiz begins
  startButton.addEventListener("click", ()=> {
   startButton.remove();
   runQuiz();
@@ -110,8 +96,7 @@ const container= document.createElement("div");
 
  const timerCont= document.getElementById("timer");
 
-//show + store previous score
-
+//store previous score + display as percent
 function runQuiz(){
   if(questionsArr[counter] === undefined){
     let percentageScore= (score * 100) / questionsArr.length;
@@ -120,6 +105,7 @@ function runQuiz(){
     window.location.reload();
   }
 
+//show questions AFTER the quiz is initiated
     const questionHTML= `
       <div class="single-question">
         <p>${questionsArr[counter].question}</p>
@@ -135,14 +121,13 @@ function runQuiz(){
     container.innerHTML= "";
    container.insertAdjacentHTML("afterbegin", questionHTML);
 
-
    var timerId = setInterval(()=> {
          timeLeft--;
          timerCont.innerHTML= timeLeft;
 
    }, 1000);
 
-// timer reset at 0
+//clear at 0
    if(timeLeft === 0){
     console.log("It is now zero");
     counter++;
@@ -151,6 +136,7 @@ function runQuiz(){
     runQuiz();
    }
 
+//add to score when correct answer
    let selectButtons= document.querySelectorAll(".single-question button");
       selectButtons.forEach(button=> {
         button.addEventListener("click", ()=> {
@@ -164,7 +150,4 @@ function runQuiz(){
           runQuiz();
         })
       })
-
-
-
  }
